@@ -150,13 +150,6 @@
             "metadata": {
                 "description": "Application Insights name for monitoring"
             }
-        },
-        "containerRegistryName": {
-            "type": "string",
-            "defaultValue": "[concat('cr', parameters('projectPrefix'), parameters('environmentName'))]",
-            "metadata": {
-                "description": "Container Registry name for storing images"
-            }
         }
     },
     "variables": {
@@ -308,21 +301,6 @@
             }
         },
         {
-            "type": "Microsoft.ContainerRegistry/registries",
-            "apiVersion": "2023-01-01-preview",
-            "name": "[parameters('containerRegistryName')]",
-            "location": "[parameters('location')]",
-            "tags": "[parameters('tags')]",
-            "sku": {
-                "name": "Standard"
-            },
-            "properties": {
-                "adminUserEnabled": false,
-                "publicNetworkAccess": "[variables('publicNetworkAccess')]",
-                "networkRuleBypassOptions": "AzureServices"
-            }
-        },
-        {
             "type": "Microsoft.MachineLearningServices/workspaces",
             "apiVersion": "2024-04-01",
             "name": "[parameters('projectName')]",
@@ -339,15 +317,13 @@
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
                 "[resourceId('Microsoft.CognitiveServices/accounts', parameters('aiResourceName'))]",
                 "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
-                "[resourceId('Microsoft.Insights/components', parameters('applicationInsightsName'))]",
-                "[resourceId('Microsoft.ContainerRegistry/registries', parameters('containerRegistryName'))]"
+                "[resourceId('Microsoft.Insights/components', parameters('applicationInsightsName'))]"
             ],
             "properties": {
                 "friendlyName": "[parameters('projectName')]",
                 "storageAccount": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
                 "keyVault": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
                 "applicationInsights": "[resourceId('Microsoft.Insights/components', parameters('applicationInsightsName'))]",
-                "containerRegistry": "[resourceId('Microsoft.ContainerRegistry/registries', parameters('containerRegistryName'))]",
                 "publicNetworkAccess": "[variables('publicNetworkAccess')]",
                 "systemDatastoresAuthMode": "Identity"
             }
@@ -529,10 +505,6 @@
             "type": "string",
             "value": "[resourceId('Microsoft.Insights/components', parameters('applicationInsightsName'))]"
         },
-        "containerRegistryId": {
-            "type": "string",
-            "value": "[resourceId('Microsoft.ContainerRegistry/registries', parameters('containerRegistryName'))]"
-        },
         "deploymentSummary": {
             "type": "object",
             "value": {
@@ -541,7 +513,6 @@
                     "storageAccount": "[parameters('storageAccountName')]",
                     "keyVault": "[parameters('keyVaultName')]",
                     "applicationInsights": "[parameters('applicationInsightsName')]",
-                    "containerRegistry": "[parameters('containerRegistryName')]",
                     "aiServices": "[parameters('aiResourceName')]",
                     "aiFoundryProject": "[parameters('projectName')]",
                     "privateEndpointsEnabled": "[parameters('enablePrivateEndpoints')]"

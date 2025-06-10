@@ -38,9 +38,6 @@
         "applicationInsightsName": {
             "value": "appi-willbyron-foundry"
         },
-        "containerRegistryName": {
-            "value": "crwillbyronfoundry"
-        },
         "aiResourceName": {
             "value": "ais-willbyron-fromarmtemplate"
         },
